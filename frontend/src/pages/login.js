@@ -2,11 +2,14 @@ import React, { useState } from 'react'
 import AuthUser from '../components/AuthUser'
 
 const Login = () => {
-    const http = AuthUser()
+    const {http, setToken} = AuthUser();
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const submit = ()=>{
-        http.post('/login', {email:email, password:password}).then(res=>console.log(res.data))
+        http.post('/login', {email:email, password:password}).then(res=>{
+            setToken(res.data.user, res.data.access_token)
+        })
+
     }
   return (
     <div className='flex h-screen'>
