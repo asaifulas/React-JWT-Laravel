@@ -1,15 +1,17 @@
 import React from 'react'
-import AuthUser from '../components/AuthUser'
+import Sidebar from '../components/layout/Sidebar'
+import Topbar from '../components/layout/Topbar'
 
 const Main = () => {
-  const {token,logout} = AuthUser()
-  // const logoutUser = ()=>{
-  //   logout();
-  // }
+
   return (
-    <div>
-      <button className='text-white bg-red-600 px-5 py-2 hover:bg-red-500' 
-      onClick={()=>logout()}>Logout</button>
+    <div className='flex'>
+      <div className='flex-shrink'><Sidebar/></div>
+      <div>
+        <div><Topbar/></div>
+        <div>content</div>
+        <div>footer</div>
+      </div>
     </div>
   )
 }
