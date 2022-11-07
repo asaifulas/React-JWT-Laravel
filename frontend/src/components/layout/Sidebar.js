@@ -16,7 +16,7 @@ const Sidebar = ({mini, setMini}) => {
       </div>
       <div className='flex-grow space-y-3 mt-5'>
         {routes.map(route=>(
-        <div onClick={()=>navigate(route.path)} className={route.path===window.location.pathname?'sidebarBtnActive':'sidebarBtn'}>
+        <div key={route.key} onClick={()=>navigate(route.path)} className={route.path===window.location.pathname?'sidebarBtnActive':'sidebarBtn'}>
           {route.icon}
           <h2 className={mini?'w-1 text-xl opacity-0':'sidebarText'}>{route.name}</h2>
         </div>

@@ -26,7 +26,7 @@ const AuthUser = () => {
 
     setToken(token)
     setUser(user)
-    navigate('/main')
+    navigate('/home')
   }
 
   const logout = ()=>{

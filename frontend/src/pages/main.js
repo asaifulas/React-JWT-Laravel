@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import Sidebar from '../components/layout/Sidebar'
 import Topbar from '../components/layout/Topbar'
 import routes from '../routing/auth'
-import Home from './auth/home'
+import Nofound from './auth/nofound'
 
 const Main = () => {
   const [mini, setMini] = useState(true)
@@ -20,11 +20,11 @@ const Main = () => {
                   <Route key={route.key} path={route.path} element={route.component} />
                 ))
               }
-              <Route key='other' path='*' element={<Home/>} />
+              <Route key='other' path='*' element={<Nofound/>} />
             </Routes>
           </div>
           <div className='bg-gray-50 pt-5 flex'>
-            <div className='hidden sm:flex sm:flex-grow'>Avialite</div>
+            <div className='hidden sm:flex sm:flex-grow cursor-pointer' onClick={()=>window.open('http://avialite.com', '_blank').focus()}>Avialite</div>
             <div>made for Avialite</div>
           </div>
         </div>
