@@ -1,7 +1,8 @@
-import { HomeIcon, PhoneIcon, TableCellsIcon, UserIcon, WrenchScrewdriverIcon } from "@heroicons/react/20/solid"
+import { CpuChipIcon, HomeIcon, TableCellsIcon, UserIcon, WrenchScrewdriverIcon } from "@heroicons/react/20/solid"
 import Devices from "../pages/auth/devices"
 import Home from "../pages/auth/home"
 import Logs from "../pages/auth/logs"
+import Profile from "../pages/auth/profile"
 import Setting from "../pages/auth/setting"
 
 const routes = [
@@ -17,7 +18,7 @@ const routes = [
         type: "collapse",
         name: "Devices",
         key: "devices",
-        icon: <PhoneIcon className="sidebarIcon"/>,
+        icon: <CpuChipIcon className="sidebarIcon"/>,
         path: "/devices",
         component: <Devices/>
     },
@@ -35,7 +36,7 @@ const routes = [
         key: "profile",
         icon: <UserIcon className="sidebarIcon"/>,
         path: "/profile",
-        // component: <Setting/>
+        component: <Profile/>
     },
     {
         type: "collapse",
