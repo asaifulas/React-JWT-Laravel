@@ -20,7 +20,9 @@ class DevicesController extends Controller
 
     public function index()
     {
-        return response()->json(['message' => 'Dapat index device controller']);
+        $dev = devices::all();
+        return response()->json(['message' => 'Dapat index device controller',
+                                    'devices'=>$dev]);
     }
 
     /**

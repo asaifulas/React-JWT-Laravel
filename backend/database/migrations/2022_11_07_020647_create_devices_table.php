@@ -14,7 +14,13 @@ return new class extends Migration
     public function up()
     {
         Schema::create('devices', function (Blueprint $table) {
+
             $table->id();
+            $table->string('deviceId');
+            $table->string('deviceName');
+            $table->string('customer');
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
             $table->timestamps();
         });
     }
