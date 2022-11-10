@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoredevicesRequest;
 use App\Http\Requests\UpdatedevicesRequest;
 use App\Models\devices;
+use Illuminate\Http\Client\Request;
 
 class DevicesController extends Controller
 {
@@ -32,7 +33,9 @@ class DevicesController extends Controller
      */
     public function create()
     {
-        //
+        $dataIn = request(['deviceId', 'deviceName', 'customer']);
+        $dev = devices::create($dataIn);
+        return response()->json(['testmasuk' => $dev]);
     }
 
     /**
