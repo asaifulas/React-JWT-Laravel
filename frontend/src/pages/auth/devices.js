@@ -4,7 +4,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/20/solid';
 
 const Devices = () => {
-  const {http, token} = AuthUser();
+  const {http, httpsec, token} = AuthUser();
   const [output, setOutput] =useState([])
   const [isOpen, setIsOpen] = useState(false)
   const [fail, setFail] = useState(false)
@@ -15,13 +15,21 @@ const Devices = () => {
 
   useEffect(() => {
     http.get('/devices', { headers: { Authorization: `Bearer ${token}` } }).then((res)=>setOutput(res.data.devices))
-  }, []);
+  }, [isOpen]);
 
   const pushData = ()=>{
-      http.get('/devices/create', { headers: { Authorization: `Bearer ${token}` }, deviceId:deviceId, deviceName:deviceName, customer:customer }).then((res)=>{
-        console.log(res)
+    
+      http.post('/devices', {
+        deviceId:deviceId, 
+        deviceName:deviceName, 
+        customer:customer
+      }, {
+        headers:{
+          Authorization: `Bearer ${token}` 
+        }}).then((res)=>{
         res.status === 200?setIsOpen(false):setFail(true)
       })
+      .catch(e=>console.log(e))
     }
   
 

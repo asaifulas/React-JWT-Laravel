@@ -34,10 +34,18 @@ const AuthUser = () => {
     navigate('/login')
   }
 
+
   const http = axios.create({
       baseURL:"http://localhost:8000/api",
       headers:{
-          "Content-type":"application/json"
+          "Content-type":"application/json"         
+      }
+  })
+  const httpsec = axios.create({
+      baseURL:"http://localhost:8000/api",
+      headers:{
+          "Content-type":"application/json",
+          "Authorization":"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNjY4MzAxMTIzLCJleHAiOjE2NjgzMDQ3MjMsIm5iZiI6MTY2ODMwMTEyMywianRpIjoiZUZuUFFKYjhXc0ZxU2FWWCIsInN1YiI6IjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.AmxPDhmqnDfDBLNTvX8ZEzFNtC9TJNAUaCH4q3SJN8E"        
       }
   })
 
@@ -47,6 +55,7 @@ const AuthUser = () => {
     user,
     getToken,
     http,
+    httpsec,
     logout
   }
 }

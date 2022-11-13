@@ -16,7 +16,7 @@ class DevicesController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api');
+        // $this->middleware('auth:api');
     }
 
     public function index()
@@ -33,9 +33,9 @@ class DevicesController extends Controller
      */
     public function create()
     {
-        $dataIn = request(['deviceId', 'deviceName', 'customer']);
-        $dev = devices::create($dataIn);
-        return response()->json(['testmasuk' => $dev]);
+        // $dataIn = request(['deviceId', 'deviceName', 'customer']);
+        // $dev = devices::create($dataIn);
+        return response()->json(['testmasuk' => request('customer')]);
     }
 
     /**
@@ -46,7 +46,13 @@ class DevicesController extends Controller
      */
     public function store(StoredevicesRequest $request)
     {
-        //
+        $request->validated();
+        Devices::create([
+            'deviceId' => $request->deviceId,
+            'deviceName' => $request->deviceName,
+            'customer' => $request->customer
+        ]);
+        return response()->json(['testmasuk' => $request->deviceName]);
     }
 
     /**

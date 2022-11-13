@@ -16,19 +16,19 @@ class Devices extends Model
         'latitude',
         'longitude'
     ];
-    public function getJWTIdentifier()
-    {
-        return $this->getKey();
-    }
+    // public function getJWTIdentifier()
+    // {
+    //     return $this->getKey();
+    // }
 
-    /**
-     * Return a key value array, containing any custom claims to be added to the JWT.
-     *
-     * @return array
-     */
-    public function getJWTCustomClaims()
-    {
-        return [];
-    }
+    // /**
+    //  * Return a key value array, containing any custom claims to be added to the JWT.
+    //  *
+    //  * @return array
+    //  */
+    // public function getJWTCustomClaims()
+    // {
+    //     return [];
+    // }
 
 }
