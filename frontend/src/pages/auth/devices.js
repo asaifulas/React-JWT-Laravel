@@ -2,6 +2,8 @@ import React, { useEffect, useState, Fragment } from 'react'
 import AuthUser from '../../components/AuthUser';
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/20/solid';
+import DialogBox from '../../components/DialogBox';
+import Alert from '../../components/Alert';
 
 const Devices = () => {
   const {http, httpsec, token} = AuthUser();
@@ -12,6 +14,11 @@ const Devices = () => {
   const [deviceId, setDeviceId] = useState()
   const [deviceName, setDeviceName] = useState()
   const [customer, setCustomer] = useState()
+  
+  const [open, setOpen] = useState(true)
+  const [runout, setRunout] = useState(false)
+  
+  const [showAlert, setShowAlert] = useState(true)
 
   useEffect(() => {
     http.get('/devices', { headers: { Authorization: `Bearer ${token}` } }).then((res)=>setOutput(res.data.devices))
@@ -29,7 +36,6 @@ const Devices = () => {
         }}).then((res)=>{
         res.status === 200?setIsOpen(false):setFail(true)
       })
-      .catch(e=>console.log(e))
     }
   
 
@@ -68,6 +74,10 @@ const Devices = () => {
       </div>
 
       {/* Dialog box */}
+      
+      {/* <Alert {...{showAlert, showAlert, color:'red', hlMsg:'Success', msg:'Your data has been deleted'}}/>
+      <Alert {...{showAlert, showAlert, color:'green', hlMsg:'Success', msg:'Your data has been deleted'}}/> */}
+      <DialogBox {...{open, setOpen, runout, setRunout, dialogType:'danger', dialogMsg:'Confirm delete data?'}}/>
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={()=>setIsOpen(false)}>
           <Transition.Child
