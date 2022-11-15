@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { CheckCircleIcon, ExclamationCircleIcon, XMarkIcon } from '@heroicons/react/20/solid'
 
-const DialogBox = ({open, setOpen, output, setOutput, dialogType, dialogMsg}) => {
+const DialogBox = ({open, setOpen, runout, setRunout, dialogType, dialogMsg}) => {
   return (
     <div>
         <Transition appear show={open} as={Fragment}>
@@ -56,13 +56,13 @@ const DialogBox = ({open, setOpen, output, setOutput, dialogType, dialogMsg}) =>
                     {dialogType==='danger'?<button
                       type="button"
                       className="inline-flex justify-center rounded-md border border-transparent bg-red-700 px-4 py-2 text-sm font-medium text-white hover:bg-red-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
-                      onClick={()=>setOutput(true)}
+                      onClick={()=>{setRunout(true);setOpen(false)}}
                     >
                       Delete
                     </button>:dialogType==='warning'&&<button
                       type="button"
                       className="inline-flex justify-center rounded-md border border-transparent bg-emerald-700 px-4 py-2 text-sm font-medium text-white hover:bg-green-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
-                      onClick={()=>setOutput(true)}
+                      onClick={()=>{setRunout(true);setOpen(false)}}
                     >
                       Confirm
                     </button>}

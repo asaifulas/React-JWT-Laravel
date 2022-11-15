@@ -4,9 +4,14 @@ import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import DialogBox from '../../components/DialogBox';
 import Alert from '../../components/Alert';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Devices = () => {
-  const {http, httpsec, token} = AuthUser();
+  const edit = () => toast.warning("Custom Style Notification with css class!", {
+    position: toast.POSITION.BOTTOM_RIGHT,
+  });
+
+  const {http, token} = AuthUser();
   const [output, setOutput] =useState([])
   const [isOpen, setIsOpen] = useState(false)
   const [fail, setFail] = useState(false)
@@ -15,14 +20,15 @@ const Devices = () => {
   const [deviceName, setDeviceName] = useState()
   const [customer, setCustomer] = useState()
   
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
   const [runout, setRunout] = useState(false)
+  const [deleteId, setDeleteId] = useState()
   
   const [showAlert, setShowAlert] = useState(true)
 
   useEffect(() => {
     http.get('/devices', { headers: { Authorization: `Bearer ${token}` } }).then((res)=>setOutput(res.data.devices))
-  }, [isOpen]);
+  }, [isOpen, runout]);
 
   const pushData = ()=>{
     
@@ -34,9 +40,22 @@ const Devices = () => {
         headers:{
           Authorization: `Bearer ${token}` 
         }}).then((res)=>{
-        res.status === 200?setIsOpen(false):setFail(true)
+        res.status === 200?setIsOpen(false):setFail(true);
+        toast.success("Add "+res.data.msg+" to devices", {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
       })
     }
+   useEffect(()=>{
+    if(runout){
+      http.delete('/devices/'+deleteId, { headers: { Authorization: `Bearer ${token}` } }).then((res)=>{
+      toast.success("Delete data "+res.data.msg, {
+      position: toast.POSITION.BOTTOM_RIGHT});
+      
+    });
+      setRunout(false)
+    }
+   },[runout])
   
 
   return (
@@ -44,7 +63,7 @@ const Devices = () => {
       <h2 className='text-xl font-bold border-b-2'>Devices</h2>
       <div className='relative h-10 my-2'>
         <div className='right-0 absolute'>
-          <button className='rounded-md cursor-pointer hover:bg-green-600 bg-green-700 text-white p-2 w-28' onClick={() => setIsOpen(true)}>Add</button>
+          <button className='rounded-md cursor-pointer hover:bg-green-600 bg-green-700 text-white p-2 w-28' onClick={()=>setIsOpen(true)}>Add</button>
         </div>
       </div>
       <div className='pt-2 bg-gray-50 rounded-lg'>
@@ -55,6 +74,7 @@ const Devices = () => {
             <th className='py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase'>Device ID</th>
             <th className='hidden md:table-cell py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase'>Device Name</th>
             <th className='hidden md:table-cell py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase'>Customer</th>
+            <th className='py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase'>Action</th>
           </tr>
         </thead>
         <tbody className='bg-white divide-y divide-gray-200'>
@@ -65,6 +85,10 @@ const Devices = () => {
             <td className='py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white'>{out.deviceId}</td>
             <td className='hidden md:table-cell py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white'>{out.deviceName}</td>
             <td className='hidden md:table-cell py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white'>{out.customer}</td>
+            <td className='flex space-x-2 py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white'>
+              <h2 className='text-yellow-600 hover:text-yellow-500 cursor-pointer text-md hover:scale-95 active:scale-105' onClick={edit}>Edit</h2>
+              <h2 className='text-red-600 hover:text-red-500 cursor-pointer text-md hover:scale-95 active:scale-105' onClick={()=>{setOpen(true);setDeleteId(out.id)}}>Delete</h2>
+            </td>
           </tr>
           )
         )}
@@ -145,6 +169,7 @@ const Devices = () => {
           </div>
         </Dialog>
       </Transition>
+      <ToastContainer />
     </div>
   )
 }

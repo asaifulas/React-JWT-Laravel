@@ -52,7 +52,7 @@ class DevicesController extends Controller
             'deviceName' => $request->deviceName,
             'customer' => $request->customer
         ]);
-        return response()->json(['testmasuk' => $request->deviceName]);
+        return response()->json(['msg' => $request->deviceName]);
     }
 
     /**
@@ -95,8 +95,10 @@ class DevicesController extends Controller
      * @param  \App\Models\devices  $devices
      * @return \Illuminate\Http\Response
      */
-    public function destroy(devices $devices)
+    public function destroy(devices $devices, $id)
     {
-        //
+        $test = devices::find($id);
+        $test->delete();
+        return response()->json(['msg' => $test->deviceName]);
     }
 }

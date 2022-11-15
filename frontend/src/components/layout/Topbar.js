@@ -1,6 +1,7 @@
 import { BellAlertIcon, UserCircleIcon } from '@heroicons/react/24/outline'
 import React from 'react'
 
+
 const Topbar = ({mini, setMini}) => {
   return (
     <div className='flex sticky h-14 items-center top-0 z-50 w-full shadow-lg'>

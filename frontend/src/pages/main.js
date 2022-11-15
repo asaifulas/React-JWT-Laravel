@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
-import Alert from '../components/Alert'
 import Sidebar from '../components/layout/Sidebar'
 import Topbar from '../components/layout/Topbar'
 import routes from '../routing/auth'
 import Nofound from './auth/nofound'
+import 'react-toastify/dist/ReactToastify.css';
 
 const Main = () => {
   const [mini, setMini] = useState(true)
@@ -30,16 +30,7 @@ const Main = () => {
           </div>
         </div>
       </div>
-      <div className='absolute top-2 right-2 z-50'>
-        <div>test</div>
-        <div>test</div>
-        <div>test</div>
-        <div>test</div>
-        <div>test</div>
-        <div>test</div>
-        <div>test2</div>
-      </div>
-      {/* <Alert {...{showAlert:true, setShowAlert:true, color:'red', hlMsg:'Success', msg:'Your data has been deleted'}}/> */}
+
     </div>
   )
 }
