@@ -16,7 +16,7 @@ class DevicesController extends Controller
      */
     public function __construct()
     {
-        // $this->middleware('auth:api');
+        $this->middleware('auth:api');
     }
 
     public function index()
@@ -33,9 +33,7 @@ class DevicesController extends Controller
      */
     public function create()
     {
-        // $dataIn = request(['deviceId', 'deviceName', 'customer']);
-        // $dev = devices::create($dataIn);
-        return response()->json(['testmasuk' => request('customer')]);
+        //return
     }
 
     /**
@@ -84,9 +82,11 @@ class DevicesController extends Controller
      * @param  \App\Models\devices  $devices
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatedevicesRequest $request, devices $devices)
+    public function update(UpdatedevicesRequest $request, devices $devices, $id)
     {
-        //
+        // $devices->update($request->validated());
+        devices::find($id)->update($request->validated());
+        return response()->json(['msg' => $request->deviceName]);
     }
 
     /**
@@ -95,10 +95,10 @@ class DevicesController extends Controller
      * @param  \App\Models\devices  $devices
      * @return \Illuminate\Http\Response
      */
-    public function destroy(devices $devices, $id)
+    public function destroy($id)
     {
-        $test = devices::find($id);
-        $test->delete();
-        return response()->json(['msg' => $test->deviceName]);
+        $device = devices::find($id);
+        $device->delete();
+        return response()->json(['msg' => $device->deviceName]);
     }
 }
