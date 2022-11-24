@@ -1,14 +1,12 @@
 import React, { useEffect, useState, Fragment } from 'react'
-import AuthUser from '../../components/AuthUser';
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import DialogBox from '../../components/DialogBox';
-import Alert from '../../components/Alert';
 import { ToastContainer, toast } from 'react-toastify';
+import http from '../../services/httpConfig'
 
 const Devices = () => {
 
-  const {http, token} = AuthUser();
   const [output, setOutput] =useState([])
   const [isOpen, setIsOpen] = useState(false)
   const [fail, setFail] = useState(false)
@@ -21,11 +19,9 @@ const Devices = () => {
   const [open, setOpen] = useState(false)
   const [runout, setRunout] = useState(false)
   const [dataId, setDataId] = useState()
-  
-  const [showAlert, setShowAlert] = useState(true)
 
   useEffect(() => {
-    http.get('/devices', { headers: { Authorization: `Bearer ${token}` } }).then((res)=>setOutput(res.data.devices))
+    http.get('/devices').then((res)=>setOutput(res.data.devices))
   }, [isOpen, runout]);
 
   const pushData = ()=>{
@@ -35,14 +31,16 @@ const Devices = () => {
           deviceId:deviceId, 
           deviceName:deviceName, 
           customer:customer
-        }, {
-          headers:{
-            Authorization: `Bearer ${token}` 
-          }}).then((res)=>{
-          res.status === 200?setIsOpen(false):setFail(true);
+        }).then((res)=>{
+          if(res.status === 200){
+            setIsOpen(false)
           toast.success("Add "+res.data.msg+" to devices", {
             position: toast.POSITION.BOTTOM_RIGHT,
-          });
+          })}
+          else {
+            sessionStorage.clear()
+            setFail(true);}
+          
         })
       }
       else {
@@ -50,21 +48,24 @@ const Devices = () => {
           deviceId:deviceId, 
           deviceName:deviceName, 
           customer:customer
-        }, {
-          headers:{
-            Authorization: `Bearer ${token}` 
-          }}).then((res)=>{
-          res.status === 200?setIsOpen(false):setFail(true);
-          toast.success("Edit "+res.data.msg+" data", {
-            position: toast.POSITION.BOTTOM_RIGHT,
-          });
+        }).then((res)=>{
+          if(res.status === 200){
+            setIsOpen(false)
+            toast.success("Edit "+res.data.msg+" data", {
+              position: toast.POSITION.BOTTOM_RIGHT,
+            })
+          }
+          else if(res.status===401){
+            sessionStorage.clear() 
+          setFail(true);
+          }
         })
       }
     }
 
    useEffect(()=>{
     if(runout){
-      http.delete('/devices/'+dataId, { headers: { Authorization: `Bearer ${token}` } }).then((res)=>{
+      http.delete('/devices/'+dataId).then((res)=>{
       toast.success("Delete data "+res.data.msg, {
       position: toast.POSITION.BOTTOM_RIGHT});
       

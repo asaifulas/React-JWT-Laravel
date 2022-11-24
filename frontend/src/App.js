@@ -1,4 +1,3 @@
-import { Route, Routes } from "react-router-dom";
 import AuthUser from "./components/AuthUser";
 import Login from "./pages/login";
 import Main from './pages/main'

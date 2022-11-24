@@ -1,12 +1,12 @@
 import React from 'react'
 import AuthUser from '../AuthUser'
-import { Bars3Icon, ArrowRightOnRectangleIcon, HomeIcon, PhoneIcon, ChevronLeftIcon, TableCellsIcon, WrenchScrewdriverIcon} from '@heroicons/react/20/solid'
+import { Bars3Icon, ArrowRightOnRectangleIcon, ChevronLeftIcon} from '@heroicons/react/20/solid'
 import routes from '../../routing/auth'
 import { useNavigate } from 'react-router-dom'
 
 
 const Sidebar = ({mini, setMini}) => {
-  const {token,logout} = AuthUser()
+  const {logout} = AuthUser()
   const navigate = useNavigate()
 
   return (

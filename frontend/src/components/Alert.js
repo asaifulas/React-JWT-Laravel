@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { XMarkIcon } from '@heroicons/react/20/solid'
 import { BellAlertIcon } from '@heroicons/react/24/outline'
 
 // const Alert = ({showAlert, setShowAlert, color, hlMsg, msg}) => {

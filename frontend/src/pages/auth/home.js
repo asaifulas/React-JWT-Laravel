@@ -1,10 +1,7 @@
 import React from 'react'
-import axios from 'axios'
-import AuthUser from '../../components/AuthUser'
 
 const Home = () => {
-  const {http} = AuthUser()
-  
+
   return (
     <div className='bg-white p-3 rounded-md shadow-lg'>
       <h2 className='text-xl font-bold border-b-2'>Home</h2>
