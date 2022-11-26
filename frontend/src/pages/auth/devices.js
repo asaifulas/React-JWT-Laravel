@@ -25,7 +25,7 @@ const Devices = () => {
   }, [isOpen, runout]);
 
   const pushData = ()=>{
-    
+    try{
     if(title==='Add Device'){
         http.post('/devices', {
           deviceId:deviceId, 
@@ -61,6 +61,8 @@ const Devices = () => {
           }
         })
       }
+    }
+    catch{console.log('error');}
     }
 
    useEffect(()=>{

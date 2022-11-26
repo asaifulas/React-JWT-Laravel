@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import AuthUser from '../components/AuthUser'
+import AuthUser from '../services/AuthUser'
 
 const Login = () => {
     const {http, setToken} = AuthUser();
