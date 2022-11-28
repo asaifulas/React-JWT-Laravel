@@ -1,5 +1,5 @@
 import React from 'react'
-import AuthUser from '../AuthUser'
+import AuthUser from '../../services/AuthUser'
 import { Bars3Icon, ArrowRightOnRectangleIcon, HomeIcon, PhoneIcon, ChevronLeftIcon, TableCellsIcon, WrenchScrewdriverIcon} from '@heroicons/react/20/solid'
 import routes from '../../routing/auth'
 import { useNavigate } from 'react-router-dom'

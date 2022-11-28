@@ -22,8 +22,7 @@ class DevicesController extends Controller
     public function index()
     {
         $dev = devices::all();
-        return response()->json(['message' => 'Dapat index device controller',
-                                    'devices'=>$dev]);
+        return response()->json(['devices'=>$dev]);
     }
 
     /**
@@ -33,9 +32,7 @@ class DevicesController extends Controller
      */
     public function create()
     {
-        $dataIn = request(['deviceId', 'deviceName', 'customer']);
-        $dev = devices::create($dataIn);
-        return response()->json(['testmasuk' => $dev]);
+       //
     }
 
     /**
@@ -46,7 +43,8 @@ class DevicesController extends Controller
      */
     public function store(StoredevicesRequest $request)
     {
-        //
+        devices::create($request->validated());
+        return response()->json(['testmasuk' => $request->deviceId]);
     }
 
     /**

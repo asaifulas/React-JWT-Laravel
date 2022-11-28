@@ -1,10 +1,11 @@
 import React, { useEffect, useState, Fragment } from 'react'
-import AuthUser from '../../components/AuthUser';
+import AuthUser from '../../services/AuthUser';
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/20/solid';
+import http from '../../services/httpConfig'
 
 const Devices = () => {
-  const {http, token} = AuthUser();
+  const {token} = AuthUser();
   const [output, setOutput] =useState([])
   const [isOpen, setIsOpen] = useState(false)
   const [fail, setFail] = useState(false)
@@ -13,13 +14,15 @@ const Devices = () => {
   const [deviceName, setDeviceName] = useState()
   const [customer, setCustomer] = useState()
 
+  const [dataId, setDataId] =  useState()
+
   useEffect(() => {
-    http.get('/devices', { headers: { Authorization: `Bearer ${token}` } }).then((res)=>setOutput(res.data.devices))
-  }, []);
+    http.get('/devices').then((res)=>setOutput(res.data.devices))
+  }, [isOpen]);
 
   const pushData = ()=>{
-      http.get('/devices/create', { headers: { Authorization: `Bearer ${token}` }, deviceId:deviceId, deviceName:deviceName, customer:customer }).then((res)=>{
-        console.log(res)
+      http.post('/devices', {deviceId:deviceId, deviceName:deviceName, customer:customer },
+       { headers: { Authorization: `Bearer ${token}` }}).then((res)=>{
         res.status === 200?setIsOpen(false):setFail(true)
       })
     }
@@ -41,6 +44,7 @@ const Devices = () => {
             <th className='py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase'>Device ID</th>
             <th className='hidden md:table-cell py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase'>Device Name</th>
             <th className='hidden md:table-cell py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase'>Customer</th>
+            <th className='md:table-cell py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase'>Action</th>
           </tr>
         </thead>
         <tbody className='bg-white divide-y divide-gray-200'>
@@ -51,6 +55,10 @@ const Devices = () => {
             <td className='py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white'>{out.deviceId}</td>
             <td className='hidden md:table-cell py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white'>{out.deviceName}</td>
             <td className='hidden md:table-cell py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white'>{out.customer}</td>
+            <td className='flex space-x-2 md:table-cell py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white'>
+              <div className='text-yellow-600 cursor-pointer hover:scale-95 hover:text-yellow-400 active:scale-105' >Edit</div>
+              <div className='text-red-600 cursor-pointer hover:scale-95 hover:text-red-400 active:scale-105' onClick={()=>setDataId()}>Delete</div>
+            </td>
           </tr>
           )
         )}

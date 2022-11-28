@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import AuthUser from '../../components/AuthUser'
+import AuthUser from '../../services/AuthUser'
 
 const Home = () => {
   const {http} = AuthUser()
