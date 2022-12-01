@@ -1,6 +1,6 @@
-import { ToastContainer, toast } from 'react-toastify';
 
 const baseURL = "http://localhost:8000/api"
+
 export const SetupInterceptors = http => {
 
     http.interceptors.request.use(
@@ -32,6 +32,7 @@ export const SetupInterceptors = http => {
         }
         return Promise.reject(error)
     })
+
 
 }
 

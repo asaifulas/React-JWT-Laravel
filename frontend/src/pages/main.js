@@ -5,6 +5,7 @@ import Topbar from '../components/layout/Topbar'
 import routes from '../routing/auth'
 import Nofound from './auth/nofound'
 import 'react-toastify/dist/ReactToastify.css';
+import DialogBox from '../components/DialogBox'
 
 const Main = () => {
   const [mini, setMini] = useState(true)
@@ -30,7 +31,7 @@ const Main = () => {
           </div>
         </div>
       </div>
-
+      {/* <DialogBox/> */}
     </div>
   )
 }

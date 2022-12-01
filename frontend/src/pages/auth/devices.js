@@ -7,6 +7,7 @@ import http from '../../services/httpConfig'
 
 const Devices = () => {
 
+  
   const [output, setOutput] =useState([])
   const [isOpen, setIsOpen] = useState(false)
   const [fail, setFail] = useState(false)
@@ -20,12 +21,18 @@ const Devices = () => {
   const [runout, setRunout] = useState(false)
   const [dataId, setDataId] = useState()
 
+  const [addVariable, setAddVariable] = useState(false)
+  const [label, setLabel] = useState('')
+  const [variable, setVariable] = useState('')
+  const [variableList, setVariableList] = useState()
+
+
   useEffect(() => {
     http.get('/devices').then((res)=>setOutput(res.data.devices))
   }, [isOpen, runout]);
 
   const pushData = ()=>{
-    try{
+
     if(title==='Add Device'){
         http.post('/devices', {
           deviceId:deviceId, 
@@ -61,8 +68,7 @@ const Devices = () => {
           }
         })
       }
-    }
-    catch{console.log('error');}
+
     }
 
    useEffect(()=>{
@@ -76,6 +82,23 @@ const Devices = () => {
     }
    },[runout])
    
+   const pushVariable = ()=>{
+    const testdata = variableList || [{label: label,name: variable}]
+    variableList&&testdata.push({label:label, name:variable})
+    setVariableList([...testdata])
+    setVariable('')
+    setLabel('')
+   }
+
+   const openVariable = (data)=>{
+    setAddVariable(true)
+    console.log(data);
+   }
+
+   const saveVariable = ()=>{
+    setAddVariable(false)
+   }
+
    const addDevice = ()=>{
     setIsOpen(true)
     setDeviceId('')
@@ -91,6 +114,12 @@ const Devices = () => {
     setDeviceName(name)
     setCustomer(cust)
     setTitle('Edit Device')
+   }
+
+   const delVariable = (index)=>{
+    const testdata = variableList
+    testdata.splice(index, 1)
+    setVariableList([...testdata])
    }
 
   return (
@@ -121,6 +150,7 @@ const Devices = () => {
             <td className='hidden md:table-cell py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white'>{out.deviceName}</td>
             <td className='hidden md:table-cell py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white'>{out.customer}</td>
             <td className='flex space-x-2 py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white'>
+              <h2 className='text-green-600 hover:text-green-500 cursor-pointer text-md hover:scale-95 active:scale-105' onClick={()=>openVariable(out.variable)}>Variables</h2>
               <h2 className='text-yellow-600 hover:text-yellow-500 cursor-pointer text-md hover:scale-95 active:scale-105' onClick={()=>editDevice(out.id, out.deviceId, out.deviceName, out.customer)}>Edit</h2>
               <h2 className='text-red-600 hover:text-red-500 cursor-pointer text-md hover:scale-95 active:scale-105' onClick={()=>{setOpen(true);setDataId(out.id)}}>Delete</h2>
             </td>
@@ -197,6 +227,101 @@ const Devices = () => {
                       Add
                     </button>
                   </div>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
+      <Transition appear show={addVariable} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={saveVariable}>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-lg bg-white text-left align-middle shadow-xl transition-all">
+                  <div className='relative'>
+                    <XMarkIcon className='h-7 absolute right-2 top-2 opacity-75 hover:opacity-100 text-gray-700 cursor-pointer' onClick={saveVariable}/>
+                  </div>
+                  <div className='p-6 pt-10'>
+                  <Dialog.Title
+                    as="h3"
+                    className="text-lg font-medium leading-6 text-gray-900 border-b-2"
+                  >
+                    Variable List
+                  </Dialog.Title>
+                  <div className="mt-2 items-center">
+                    <div className='flex m-5'>
+                      <h3 className='flex-grow'>Label:</h3>
+                      <input className='text-md outline-offset-4 px-2 text-lg rounded-md py-1 outline-none bg-gray-100' value={label} onChange={(e)=>setLabel(e.target.value)} type="text" name="label" placeholder='Variable 1' id="label"  />
+                    </div>
+                    <div className='flex m-5'>
+                      <h3 className='flex-grow'>Name:</h3>
+                      <input className='text-md outline-offset-4 px-2 text-lg rounded-md py-1 outline-none bg-gray-100' value={variable} onChange={(e)=>setVariable(e.target.value)} type="text" name="variable" placeholder='variable1' id="variable"  />
+                    </div>  
+                  </div>
+                  <div className="text-center justify-center">
+                    <button
+                      type="button"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-green-700 px-4 py-2 text-sm font-medium text-white hover:bg-green-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
+                      onClick={()=>pushVariable()}
+                    >
+                      Add New Variable
+                    </button>
+                  </div>
+
+                  <div className='bg-gray-100 m-5 p-5 h-44 overflow-scroll'>
+                    {
+                      variableList&&
+                      variableList.map((dat, index)=>{
+                         return <div key={dat.name} className='flex bg-gray-200 hover:bg-gray-300 cursor-pointer items-center'>
+                          <div className='p-2 border-black border-r-2 w-1/2'>{dat.label}</div>
+                          <div className='w-1/2 p-2'>{dat.name}</div>
+                          
+                          <div onClick={()=>delVariable(index)} className='text-red-400 p-2 font-bold hover:text-red-600 hover:scale-105'>X</div>
+                        </div>
+                    } )
+
+                    }
+                    
+                  </div>
+                  <div className='text-lg font-medium leading-6 text-gray-900 border-b-2'>
+                    Json Example
+                  </div>
+                  <div className='bg-gray-100 m-5 p-5 h-20 overflow-scroll'>
+                  &#123;
+                    {
+                      variableList&&
+                      variableList.map((dat, index)=>{
+                        if(index<variableList.length-1){
+                        return `"${dat.name}":"value", `}
+                        else return `"${dat.name}":"value" `
+                      })
+                    }
+                  &#125;
+                  </div>
+                  
+                  
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

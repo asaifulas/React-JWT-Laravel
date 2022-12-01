@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('deviceId');
             $table->string('deviceName');
             $table->string('customer');
+            $table->json('variable')->nullable();
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
             $table->timestamps();
