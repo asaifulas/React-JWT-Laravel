@@ -25,6 +25,8 @@ const Devices = () => {
   const [label, setLabel] = useState('')
   const [variable, setVariable] = useState('')
   const [variableList, setVariableList] = useState()
+  
+  const [tempVariable, setTempVariable] = useState()
 
 
   useEffect(() => {
@@ -92,11 +94,15 @@ const Devices = () => {
 
    const openVariable = (data)=>{
     setAddVariable(true)
-    console.log(data);
+    setVariableList(data)
+    setTempVariable(data)
    }
 
    const saveVariable = ()=>{
     setAddVariable(false)
+    if(variableList != tempVariable){
+      console.log('x sama');
+    }
    }
 
    const addDevice = ()=>{
