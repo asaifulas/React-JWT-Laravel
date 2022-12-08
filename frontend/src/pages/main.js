@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Sidebar from '../components/layout/Sidebar'
 import Topbar from '../components/layout/Topbar'
@@ -6,10 +6,16 @@ import routes from '../routing/auth'
 import Nofound from './auth/nofound'
 import 'react-toastify/dist/ReactToastify.css';
 import DialogBox from '../components/DialogBox'
+import { AuthContext } from '../contexts/AuthContext'
 
 const Main = () => {
   const [mini, setMini] = useState(true)
+  const {expired} = useContext(AuthContext);
+  useEffect(()=>{
+    console.log(expired)
+  },[expired])
   return (
+    
     <div className='flex'>
       <div className='flex-shrink'><Sidebar {...{mini, setMini}}/></div>
       <div className='flex flex-col flex-grow'>

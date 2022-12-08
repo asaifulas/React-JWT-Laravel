@@ -1,13 +1,15 @@
-import React, { useEffect, useState, Fragment } from 'react'
+import React, { useEffect, useState, Fragment, useContext } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import DialogBox from '../../components/DialogBox';
 import { ToastContainer, toast } from 'react-toastify';
 import http from '../../services/httpConfig'
+import { AuthContext } from '../../contexts/AuthContext';
 
 const Devices = () => {
 
-  
+  const {expired, setExpired} = useContext(AuthContext)
+
   const [output, setOutput] =useState([])
   const [isOpen, setIsOpen] = useState(false)
   const [fail, setFail] = useState(false)
@@ -111,6 +113,8 @@ const Devices = () => {
     setDeviceName('')
     setCustomer('')
     setTitle('Add Device')
+    console.log(expired);
+    setExpired(2)
    }
 
    const editDevice =  (dbid, id, name, cust)=>{

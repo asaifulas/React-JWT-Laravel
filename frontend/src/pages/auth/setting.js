@@ -4,11 +4,9 @@ const Setting = () => {
   const c = [1,2,3]
   const [id, setId] = useState([])
   const [current, setCurrent] = useState('X')
-  const [x, setX] = useState(0)
-  const [o, setO] = useState(0)
-
-  let butId = 0
-
+  const [x, setX] = useState([])
+  const [o, setO] = useState([])
+  
   const answer =  [
     [1, 2, 3],
     [4, 5, 6],
@@ -28,41 +26,41 @@ const Setting = () => {
       document.getElementById(id).innerHTML = ''
       document.getElementById(id).disabled = false
     })
-    setX(0)
-    setO(0)
+    setX([])
+    setO([])
     setCurrent('X')
     }, 50);}
 
   const changeButton = (data)=>{
     document.getElementById(data).innerHTML = current
-    console.log(id);
     document.getElementById(data).disabled = true
     setId([...id, data])
     if(current === 'X'){
       setCurrent('O')
-      setX(x+data)
+      setX([...x,data])
       answer.map(ans=>{
-        if(checker()
-      })
-      answer.includes(x+data)&&win([...id, data], 'X Win')    
+        checker([...x,data], ans)&&win([...id, data], 'X Win')
+      }) 
     }
     else{
       setCurrent('X')
-      setO(o+data)
-      answer.includes(o+data)&&win([...id, data], 'O Win')     
+      setO([...o,data])
+      answer.map(ans=>{
+        checker([...o,data], ans)&&win([...id, data], 'O Win')  
+      })   
     }
   }
   return (
     <>
     <style>{`button{height:100px; width:100px; border:1px solid black;}
-    .row{display: flex}`}</style>
+    .row{display: flex; margin-top: -5px}`}</style>
     <div className='bg-white rounded-md shadow-md p-5'>
       <h2 className='text-lg font-semibold'>Setting</h2>
       <div>
           {c.map((row, index)=>{        
             return <div className='row' key={index*2}>{c.map((col)=>{
-              return <div key={index*3+col}className={`cursor-pointer text-center`}>
-                <button id={index*3+col} onClick={()=>changeButton(index*3+col)}>{index*3+col}</button>
+              return <div key={index*3+col}>
+                <button id={index*3+col} onClick={()=>changeButton(index*3+col)}></button>
               </div>
             })}</div>
           })}
