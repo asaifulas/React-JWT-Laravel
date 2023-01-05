@@ -13,6 +13,7 @@ class Devices extends Model
         'deviceId',
         'deviceName',
         'customer',
+        'variable',
         'latitude',
         'longitude'
     ];

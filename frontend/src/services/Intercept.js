@@ -3,6 +3,7 @@ const baseURL = "http://localhost:8000/api"
 
 export const SetupInterceptors = http => {
 
+    // const {expired, setExpired} = useContext(AuthContext)
     http.interceptors.request.use(
         config => {
             config.headers['Authorization'] = `Bearer ${JSON.parse(sessionStorage.getItem('token'))}`

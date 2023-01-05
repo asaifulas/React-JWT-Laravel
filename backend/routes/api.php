@@ -26,6 +26,7 @@ Route::post('login', [AuthController::class, 'login']);
 Route::group(['middleware'=>'api'], function(){
     Route::resource('v1/push', GatewaysController::class)->except(['create', 'store', 'edit']);
     Route::resource('devices', DevicesController::class);
+    Route::post('devices/variable', [DevicesController::class, 'addvariable']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::post('me', [AuthController::class, 'me']);

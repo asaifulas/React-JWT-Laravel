@@ -86,7 +86,11 @@ class DevicesController extends Controller
     {
         // $devices->update($request->validated());
         devices::find($id)->update($request->validated());
-        return response()->json(['msg' => $request->deviceName]);
+
+        if ($request->variable)return response()->json(['msg' => 'Variable Updated']);
+
+        else return response()->json(['msg' => $request->deviceName]);
+
     }
 
     /**
@@ -100,5 +104,12 @@ class DevicesController extends Controller
         $device = devices::find($id);
         $device->delete();
         return response()->json(['msg' => $device->deviceName]);
+    }
+
+    public function addvariable(devices $devices, $id)
+    {
+        // $devices->update($request->validated());
+        // devices::find($id)->update($request->validated());
+        return response()->json(['msg' => 'test']);
     }
 }

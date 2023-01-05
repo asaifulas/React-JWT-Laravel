@@ -33,7 +33,7 @@ const Devices = () => {
 
   useEffect(() => {
     http.get('/devices').then((res)=>setOutput(res.data.devices))
-  }, [isOpen, runout]);
+  }, [isOpen, runout, variableList]);
 
   const pushData = ()=>{
 
@@ -94,16 +94,32 @@ const Devices = () => {
     setLabel('')
    }
 
-   const openVariable = (data)=>{
+   const openVariable = (data, id)=>{
     setAddVariable(true)
     setVariableList(data)
     setTempVariable(data)
+    setDataId(id)
    }
 
    const saveVariable = ()=>{
     setAddVariable(false)
     if(variableList != tempVariable){
-      console.log('x sama');
+      console.log(variableList);
+      http.put('/devices/'+dataId, {
+        variable:JSON.stringify(variableList)
+      }).then((res)=>{
+        if(res.status === 200){
+          setIsOpen(false)
+          setVariableList()
+          toast.success("Variable has been updated", {
+            position: toast.POSITION.BOTTOM_RIGHT,
+          })
+        }
+        else if(res.status===401){
+          sessionStorage.clear() 
+        setFail(true);
+        }
+      })
     }
    }
 
@@ -113,8 +129,7 @@ const Devices = () => {
     setDeviceName('')
     setCustomer('')
     setTitle('Add Device')
-    console.log(expired);
-    setExpired(2)
+
    }
 
    const editDevice =  (dbid, id, name, cust)=>{
@@ -160,7 +175,7 @@ const Devices = () => {
             <td className='hidden md:table-cell py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white'>{out.deviceName}</td>
             <td className='hidden md:table-cell py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white'>{out.customer}</td>
             <td className='flex space-x-2 py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white'>
-              <h2 className='text-green-600 hover:text-green-500 cursor-pointer text-md hover:scale-95 active:scale-105' onClick={()=>openVariable(out.variable)}>Variables</h2>
+              <h2 className='text-green-600 hover:text-green-500 cursor-pointer text-md hover:scale-95 active:scale-105' onClick={()=>openVariable(JSON.parse(out.variable), out.id)}>Variables</h2>
               <h2 className='text-yellow-600 hover:text-yellow-500 cursor-pointer text-md hover:scale-95 active:scale-105' onClick={()=>editDevice(out.id, out.deviceId, out.deviceName, out.customer)}>Edit</h2>
               <h2 className='text-red-600 hover:text-red-500 cursor-pointer text-md hover:scale-95 active:scale-105' onClick={()=>{setOpen(true);setDataId(out.id)}}>Delete</h2>
             </td>

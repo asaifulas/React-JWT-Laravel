@@ -23,10 +23,18 @@ class UpdatedevicesRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'deviceId'=>'required',
-            'deviceName'=>'required',
-            'customer'=>'required'
-        ];
+        if ($this->input('variable')){
+            return [
+                'variable'=>'required',
+            ];
+        }
+        else{
+            return [
+                'deviceId'=>'required',
+                'deviceName'=>'required',
+                'customer'=>'required'
+            ];
+        }
+
     }
 }

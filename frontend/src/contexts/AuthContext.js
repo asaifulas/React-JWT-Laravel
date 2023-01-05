@@ -4,7 +4,7 @@ import React from 'react'
 export const AuthContext = createContext()
 
 const AuthContextProvider = (props) => {
-    const [expired, setExpired] = useState(1)
+    const [expired, setExpired] = useState(false)
   return (
     <AuthContext.Provider value={{expired, setExpired}}>{props.children}</AuthContext.Provider>
   )
