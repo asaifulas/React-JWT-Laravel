@@ -10,7 +10,7 @@ const Devices = () => {
 
   const {expired, setExpired} = useContext(AuthContext)
 
-  const [output, setOutput] =useState([])
+  const [output, setOutput] = useState([])
   const [isOpen, setIsOpen] = useState(false)
   const [fail, setFail] = useState(false)
   const [title, setTitle] = useState('Add Device')
